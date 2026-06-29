@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تماس با من</title>
+
+    <!--   فونت فارسی   -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
+    <!--   استایل سفارشی   -->
+    <link rel="stylesheet" href="style.css">
+
+    <!--   (اختیاری) آیکون برای تب مرورگر   -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<div class="container">
+    <section class="contact-card">
+        <h1>پیام</h1>
+
+        <!--   برای تست ساده می‌توانید از mailto استفاده کنید
+             برای پروژهٔ واقعی از Formspree یا اسکریپت خود استفاده کنید   -->
+        <form id="contactForm"
+              action="mailto:youremail@example.com"
+              method="POST"
+              enctype="text/plain">
+
+            <div class="form-group">
+                <label for="name">نام شما</label>
+                <input type="text" id="name" name="نام" placeholder="مثلاً علی"
+                       required autocomplete="name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">ایمیل (اختیاری)</label>
+                <input type="email" id="email" name="ایمیل" placeholder="example@domain.com"
+                       required autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <label for="subject"> موضوع</label>
+                <input type="text" id="subject" name="موضوع"
+                       placeholder="موضوع پیام" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">پیام</label>
+                <textarea id="message" name="پیام"
+                          placeholder="متن پیام خود را اینجا بنویسید..."
+                          required></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">ارسال پیام</button>
+        </form>
+
+        <p class="note">
+          پیام شما ناشناس خواهد بود.
+        </p>
+    </section>
+</div>
+
+</body>
+</html>
