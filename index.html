@@ -146,6 +146,9 @@
     /* accessibility focus */
     input:focus-visible, textarea:focus-visible, button:focus-visible{outline:3px solid rgba(124,92,255,0.12);outline-offset:3px}
   </style>
+
+  <!-- reCAPTCHA v2 (checkbox) script -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
   <div class="bg-blob" aria-hidden="true">
@@ -160,7 +163,7 @@
         <div class="logo" aria-hidden="true">ER H</div>
         <div>
           <h1 id="contactTitle">سلام — خوش آمدی!</h1>
-          <p class="lead">هر پیامی که می‌فرستی با دقت خوانده میشود.</p>
+          <p class="lead"> هر پیامی که می‌فرستی با دقت خوانده می‌شود.</p>
         </div>
       </div>
 
@@ -170,11 +173,11 @@
     <aside class="card" aria-labelledby="formTitle">
       <h2 id="formTitle" style="margin:0 0 12px 0">ارسال پیام</h2>
 
-      <form id="contactForm" novalidate>
+      <form id="contactForm">
         <div class="row">
           <div class="field">
             <label for="name">نام</label>
-            <input id="name" name="name" type="text" placeholder="مثال: ممد" required />
+            <input id="name" name="name" type="text" placeholder="مثال:ممد" required />
           </div>
           <div class="field">
             <label for="email">ایمیل*</label>
@@ -185,6 +188,11 @@
         <div>
           <label for="message">پیام</label>
           <textarea id="message" name="message" placeholder="پیام خود را اینجا بنویسید..." required></textarea>
+        </div>
+
+        <!-- reCAPTCHA widget (site key inserted) -->
+        <div style="margin-top:10px;" aria-hidden="false">
+          <div class="g-recaptcha" data-sitekey="6LdKmjwtAAAAAItqI5N1wYsXKqn_Vse5J16N8llh"></div>
         </div>
 
         <div class="meta">
@@ -213,14 +221,34 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      // Run native HTML validation first
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
       statusEl.style.display = "none";
       const formData = new FormData(form);
 
-      // client-side limit and simple validation
-      if((formData.get("message")||"").length > 2000){
+      const message = (formData.get("message") || "").trim();
+      if (!message) {
+        setStatus("err","لطفاً پیام خود را وارد کنید.");
+        return;
+      }
+      if (message.length > 2000) {
         setStatus("err","پیام بیش از حد طولانی است.");
         return;
       }
+
+      // Check reCAPTCHA response
+      const captchaResponse = (typeof grecaptcha !== 'undefined') ? grecaptcha.getResponse() : "";
+      if (!captchaResponse) {
+        setStatus("err","لطفاً تأیید امنیتی (کپچا) را کامل کنید.");
+        return;
+      }
+      // Ensure the token is included in FormData
+      formData.set('g-recaptcha-response', captchaResponse);
 
       if(!FORM_ENDPOINT){
         setStatus("err","آدرس endpoint فرم تنظیم نشده.");
@@ -240,6 +268,8 @@
         if(response.ok){
           setStatus("ok","پیام شما ارسال شد — ممنون! من در اولین فرصت پاسخ خواهم داد.");
           form.reset();
+          // reset reCAPTCHA widget after successful submit
+          if (typeof grecaptcha !== 'undefined' && grecaptcha.reset) grecaptcha.reset();
         } else {
           const data = await response.json().catch(()=>null);
           const msg = (data && (data.error || data.message)) ? data.error || data.message : "خطا در ارسال پیام. لطفاً دوباره تلاش کنید.";
