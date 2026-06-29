@@ -1,0 +1,166 @@
+/* --------------------------------------------------------------
+   تنظیمات پایه
+-------------------------------------------------------------- */
+:root {
+    /* رنگ‑پالت اصلی */
+    --color-primary:   #0066cc;   /* آبی روشن */
+    --color-primary-dark: #004a99; /* آبی تیره */
+    --color-bg-light:  #f9fafb;
+    --color-bg-dark:   #1e1e2a;
+    --color-card-light:#ffffff;
+    --color-card-dark: #2d2d3a;
+    --color-text:      #212529;
+    --color-muted:     #555555;
+}
+
+/* حالت تاریک (dark mode) – بر مبنای تنظیمات سیستم کاربر */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg-light:  var(--color-bg-dark);
+        --color-card-light:var(--color-card-dark);
+        --color-text:      #e0e0e0;
+        --color-muted:     #b0b0c0;
+    }
+}
+
+/* فونت پایه */
+html {
+    font-family: 'Vazir', Tahoma, sans-serif;
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-bg-light);
+}
+
+/* تنظیمات عمومی */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------
+   لایه‌بندی (layout)
+-------------------------------------------------------------- */
+body, html {
+    height: 100%;
+    margin: 0;
+}
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+/* --------------------------------------------------------------
+   کارت فرم (contact card)
+-------------------------------------------------------------- */
+.contact-card {
+    background: var(--color-card-light);
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.08);
+    width: 100%;
+    max-width: 460px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+.contact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.12);
+}
+.contact-card h1 {
+    margin: 0 0 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--color-primary-dark);
+}
+
+/* --------------------------------------------------------------
+   فرم و فیلدها
+-------------------------------------------------------------- */
+form {
+    display: flex;
+    flex-direction: column;
+}
+.form-group {
+    margin-bottom: 1rem;
+    position: relative;
+}
+label {
+    font-size: .95rem;
+    font-weight: 500;
+    margin-bottom: .4rem;
+    display: block;
+    color: var(--color-muted);
+}
+input,
+textarea {
+    width: 100%;
+    padding: .75rem 1rem;
+    font-size: .97rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    transition: border-color .2s, box-shadow .2s;
+}
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0,102,204,.15);
+}
+
+/* استایل placeholder برای مرورگرهای مدرن */
+::placeholder {
+    color: #999;
+    opacity: 1; /* Firefox */
+}
+
+/* textarea ارتفاع مناسب */
+textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+/* --------------------------------------------------------------
+   دکمه ارسال
+-------------------------------------------------------------- */
+.btn-primary {
+    cursor: pointer;
+    border: none;
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: .85rem 1.2rem;
+    border-radius: 6px;
+    transition: background .2s, transform .1s;
+}
+.btn-primary:hover {
+    background: var(--color-primary-dark);
+}
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* --------------------------------------------------------------
+   نکات و متن‌های کم‌رنگ
+-------------------------------------------------------------- */
+.note {
+    font-size: .85rem;
+    color: var(--color-muted);
+    margin-top: 1.2rem;
+    text-align: center;
+}
+
+/* --------------------------------------------------------------
+   ریسپانسیو
+-------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .contact-card {
+        padding: 1.5rem 1rem;
+    }
+    .btn-primary {
+        font-size: .95rem;
+    }
+}
